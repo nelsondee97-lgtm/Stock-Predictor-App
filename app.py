@@ -42,11 +42,11 @@ if any(np.isnan([open_val, high_val, low_val, volume_val])):
 else:
     input_data = np.array([[open_val, high_val, low_val, volume_val]])
 
-    if st.button("Predict"):
-prediction = model.predict(input_data)
-probability = model.predict_proba(input_data)[0][1]
+   if st.button("Predict"):
+    prediction = model.predict(input_data)
+    probability = model.predict_proba(input_data)[0][1]
 
-if prediction[0] == 1:
-    st.success(f"📈 UP (Confidence: {probability:.2f})")
-else:
-    st.error(f"📉 DOWN (Confidence: {1 - probability:.2f})")
+    if prediction[0] == 1:
+        st.success(f"📈 UP (Confidence: {probability:.2f})")
+    else:
+        st.error(f"📉 DOWN (Confidence: {1 - probability:.2f})")
