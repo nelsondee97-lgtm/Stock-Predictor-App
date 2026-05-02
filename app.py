@@ -22,13 +22,13 @@ if not data.empty:
     latest = data.iloc[-1]
 
     st.subheader("Latest Stock Data")
-    st.write(latest)
-
-    # Clean values
-    open_val = float(latest["Open"])
-    high_val = float(latest["High"])
-    low_val = float(latest["Low"])
-    volume_val = float(latest["Volume"])
+    st.dataframe(data.tail(1))
+    
+    # Extract values correctly from yfinance MultiIndex
+open_val = float(latest[("Open", ticker)])
+high_val = float(latest[("High", ticker)])
+low_val = float(latest[("Low", ticker)])
+volume_val = float(latest[("Volume", ticker)])
 
     # Check missing values
     if any(np.isnan([open_val, high_val, low_val, volume_val])):
