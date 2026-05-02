@@ -24,25 +24,22 @@ if not data.empty:
     st.subheader("Latest Stock Data")
     st.dataframe(data.tail(1))
     
-    # Extract values correctly from yfinance MultiIndex
+   # Extract values correctly from yfinance MultiIndex
 open_val = float(latest[("Open", ticker)])
 high_val = float(latest[("High", ticker)])
 low_val = float(latest[("Low", ticker)])
 volume_val = float(latest[("Volume", ticker)])
 
-    # Check missing values
-    if any(np.isnan([open_val, high_val, low_val, volume_val])):
-        st.error("⚠️ Missing data — cannot make prediction")
-    else:
-        input_data = np.array([[open_val, high_val, low_val, volume_val]])
-
-        if st.button("Predict"):
-            prediction = model.predict(input_data)
-
-            if prediction[0] == 1:
-                st.success("📈 Price likely to go UP tomorrow")
-            else:
-                st.error("📉 Price likely to go DOWN tomorrow")
-
+# Check missing values
+if any(np.isnan([open_val, high_val, low_val, volume_val])):
+    st.error("⚠️ Missing data — cannot make prediction")
 else:
-    st.warning("No data found for this ticker")
+    input_data = np.array([[open_val, high_val, low_val, volume_val]])
+
+    if st.button("Predict"):
+        prediction = model.predict(input_data)
+
+        if prediction[0] == 1:
+            st.success("📈 Price likely to go UP tomorrow")
+        else:
+            st.error("📉 Price likely to go DOWN tomorrow")
