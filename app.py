@@ -49,7 +49,7 @@ else:
             st.success("📈 Price likely to go UP tomorrow")
         else:
             st.error("📉 Price likely to go DOWN tomorrow")
-else:
-    st.warning("Invalid ticker or no data found")
+         else:
+            st.warning("Invalid ticker or no data found")
 
 
