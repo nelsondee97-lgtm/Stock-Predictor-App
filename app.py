@@ -1,23 +1,39 @@
 import streamlit as st
 import joblib
 import numpy as np
+import yfinance as yf
 
+# Load model
 model = joblib.load("model.pkl")
 
 st.title("📈 Stock Movement Predictor")
 
-st.write("Enter today's stock data to predict tomorrow's movement.")
+# User selects stock
+ticker = st.text_input("Enter Stock Ticker (e.g. AAPL, TSLA)", "AAPL")
 
-open_price = st.number_input("Open Price")
-high_price = st.number_input("High Price")
-low_price = st.number_input("Low Price")
-volume = st.number_input("Volume")
+# Fetch data
+data = yf.download(ticker, period="5d")
 
-if st.button("Predict"):
-    data = np.array([[open_price, high_price, low_price, volume]])
-    prediction = model.predict(data)
+if not data.empty:
+    latest = data.iloc[-1]
 
-    if prediction[0] == 1:
-        st.success("📈 Price will go UP")
-    else:
-        st.error("📉 Price will go DOWN")
+    st.subheader("Latest Stock Data")
+    st.write(latest)
+
+    # Prepare input for model
+    input_data = np.array([[
+        latest["Open"],
+        latest["High"],
+        latest["Low"],
+        latest["Volume"]
+    ]])
+
+    if st.button("Predict"):
+        prediction = model.predict(input_data)
+
+        if prediction[0] == 1:
+            st.success("📈 Price likely to go UP tomorrow")
+        else:
+            st.error("📉 Price likely to go DOWN tomorrow")
+else:
+    st.warning("Invalid ticker or no data found")
