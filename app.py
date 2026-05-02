@@ -20,13 +20,25 @@ if not data.empty:
     st.subheader("Latest Stock Data")
     st.write(latest)
 
-    # Prepare input for model
-    input_data = np.array([[
-        latest["Open"],
-        latest["High"],
-        latest["Low"],
-        latest["Volume"]
-    ]])
+    # Clean values (VERY IMPORTANT)
+open_val = float(latest["Open"])
+high_val = float(latest["High"])
+low_val = float(latest["Low"])
+volume_val = float(latest["Volume"])
+
+# Check for missing values
+if any(np.isnan([open_val, high_val, low_val, volume_val])):
+    st.error("⚠️ Missing data — cannot make prediction")
+else:
+    input_data = np.array([[open_val, high_val, low_val, volume_val]])
+
+    if st.button("Predict"):
+        prediction = model.predict(input_data)
+
+        if prediction[0] == 1:
+            st.success("📈 Price likely to go UP tomorrow")
+        else:
+            st.error("📉 Price likely to go DOWN tomorrow")
 
     if st.button("Predict"):
         prediction = model.predict(input_data)
