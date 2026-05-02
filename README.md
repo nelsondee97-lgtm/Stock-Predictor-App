@@ -62,6 +62,9 @@ Users can:
 - Improve model accuracy
 - Add historical prediction tracking
 
+📸 App Preview
+
+![Stock App](app.png)
 ---
 
  👩‍💻 Author
