@@ -45,4 +45,4 @@ if not data.empty:
                 st.error("📉 Price likely to go DOWN tomorrow")
 
 else:
-    st.warning("No data found for this ticker")w")
+    st.warning("No data found for this ticker")
