@@ -5,7 +5,7 @@ A machine learning web application that predicts whether a stock price will go *
 ---
 
 🚀 Live Demo
-👉 https://Stock-Predictor-App.streamlit.app
+👉 https://stock-predictor-app-hdi9q7wnd6mccqg6swwsen.streamlit.app/
 
 ---
 
