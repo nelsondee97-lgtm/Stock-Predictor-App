@@ -22,7 +22,7 @@ if not data.empty:
     st.subheader("Latest Stock Data")
     st.write(latest)
 
-    # Clean values (VERY IMPORTANT)
+# Clean values (VERY IMPORTANT)
 open_val = float(latest["Open"])
 high_val = float(latest["High"])
 low_val = float(latest["Low"])
@@ -41,15 +41,3 @@ else:
             st.success("📈 Price likely to go UP tomorrow")
         else:
             st.error("📉 Price likely to go DOWN tomorrow")
-
-    if st.button("Predict"):
-        prediction = model.predict(input_data)
-
-        if prediction[0] == 1:
-            st.success("📈 Price likely to go UP tomorrow")
-        else:
-            st.error("📉 Price likely to go DOWN tomorrow")
-         else:
-            st.warning("Invalid ticker or no data found")
-
-
