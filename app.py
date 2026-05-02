@@ -7,6 +7,8 @@ import yfinance as yf
 model = joblib.load("model.pkl")
 
 st.title("📈 Stock Movement Predictor")
+st.subheader("📊 Stock Price Chart")
+st.line_chart(data["Close"])
 
 # User selects stock
 ticker = st.text_input("Enter Stock Ticker (e.g. AAPL, TSLA)", "AAPL")
@@ -49,3 +51,5 @@ else:
             st.error("📉 Price likely to go DOWN tomorrow")
 else:
     st.warning("Invalid ticker or no data found")
+
+
