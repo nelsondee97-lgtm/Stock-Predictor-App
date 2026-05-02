@@ -2,9 +2,11 @@ import streamlit as st
 import joblib
 import numpy as np
 import yfinance as yf
+st.set_page_config(page_title="Stock Predictor", layout="wide")
 
 st.title("📈 Stock Movement Predictor")
-
+st.markdown("### Smart predictions powered by Machine Learning")
+st.markdown("---")
 # Load model
 model = joblib.load("model.pkl")
 
@@ -16,12 +18,16 @@ data = yf.download(ticker, period="5d")
 
 # Chart
 if not data.empty:
-    st.subheader("📊 Stock Price Chart")
+   latest = data.iloc[-1]
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("📊 Price Chart")
     st.line_chart(data["Close"])
 
-    latest = data.iloc[-1]
-
-    st.subheader("Latest Stock Data")
+with col2:
+    st.subheader("📋 Latest Data")
     st.dataframe(data.tail(1))
     
    # Extract values correctly from yfinance MultiIndex
@@ -37,9 +43,10 @@ else:
     input_data = np.array([[open_val, high_val, low_val, volume_val]])
 
     if st.button("Predict"):
-        prediction = model.predict(input_data)
+prediction = model.predict(input_data)
+probability = model.predict_proba(input_data)[0][1]
 
-        if prediction[0] == 1:
-            st.success("📈 Price likely to go UP tomorrow")
-        else:
-            st.error("📉 Price likely to go DOWN tomorrow")
+if prediction[0] == 1:
+    st.success(f"📈 UP (Confidence: {probability:.2f})")
+else:
+    st.error(f"📉 DOWN (Confidence: {1 - probability:.2f})")
