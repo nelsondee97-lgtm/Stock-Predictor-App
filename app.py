@@ -24,6 +24,10 @@ if data.empty:
     st.error("Invalid ticker or no data found")
     st.stop()
 
+# 🔥 Fix MultiIndex
+if isinstance(data.columns, pd.MultiIndex):
+    data.columns = data.columns.get_level_values(0)
+
 # =========================
 # 📊 FEATURE ENGINEERING
 # =========================
@@ -32,7 +36,12 @@ data["MA_5"] = data["Close"].rolling(5).mean()
 data["MA_10"] = data["Close"].rolling(10).mean()
 data["Volatility"] = data["Return"].rolling(5).std()
 
+# NOW drop NaN (correct place)
 data = data.dropna()
+
+if data.empty:
+    st.error("Not enough data to compute indicators")
+    st.stop()
 
 # =========================
 # 📈 VISUALIZATION
@@ -48,7 +57,7 @@ with col2:
     st.line_chart(data["Volatility"])
 
 # =========================
-# 🎯 LATEST DATA FOR PREDICTION
+# 🎯 LATEST DATA
 # =========================
 latest = data.iloc[-1]
 
